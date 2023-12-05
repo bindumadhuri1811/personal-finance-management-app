@@ -1,0 +1,52 @@
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: finance
+         uri: lb://FINANCE-SERVICE
+         predicates:
+           - Path=/finance/**
+         filters:
+           - AuthenticationFilter
+           
+       - id: user
+         uri: lb://EXPENSE-SERVICE
+         predicates:
+           - Path=/users/**
+         filters:
+           - AuthenticationFilter
+
+       - id: expense
+         uri: lb://EXPENSE-SERVICE
+         predicates:
+           - Path=/expenses/**
+         filters:
+           - AuthenticationFilter
+           
+       - id: goals
+         uri: lb://GOALS-SERVICE
+         predicates:
+           - Path=/goals/**
+         filters:
+           - AuthenticationFilter
+           
+       - id: budgets
+         uri: lb://BUDGETS-SERVICE
+         predicates:
+           - Path=/budgets/**
+         filters:
+           - AuthenticationFilter
+
+       - id: Authentication-service
+         uri: lb://AUTHENTICATION-SERVICE
+         predicates:
+           - Path=/auth/**
+         
+
+ application:
+   name: FINANCE-GATEWAY
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
